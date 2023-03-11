@@ -1,10 +1,11 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 import axios from 'axios';
+import SearchBarVue from '@/components/SearchBar.vue';
 interface ResponseFromDatabase {
   Search: MovieType[];
   totalResults: string;
-  Response: string
+  Response: string;
 }
 interface MovieType {
   Poster: string;
@@ -14,37 +15,48 @@ interface MovieType {
   imdbID: string;
 }
 
-export const useCounterStore = defineStore('counter', () => {
-  const count = ref(0);
-  const doubleCount = computed(() => count.value * 2);
-  function increment() {
-    count.value++;
-  }
-
-  return { count, doubleCount, increment };
-});
-
-export const useGetMoviesStore = defineStore('moviesGetter', {
+export const useMoviesStore = defineStore('moviesGetter', {
   state: () => ({
+    searchMovie: '',
+    page: '1',
+    isLoading: false,
+    title: 'Friends',
+    APIkey: '95dc70d',
     movies: [] as MovieType[],
   }),
+
   getters: {
     getMovies(state) {
       return state.movies;
     },
   },
+
   actions: {
     async fetchMovies() {
       try {
-        const { data } = await axios.get(
-          'https://www.omdbapi.com/?s=Harry+Potter&page=1&apikey=95dc70d&'
+        const { data } = await axios.get<ResponseFromDatabase>(
+          `https://www.omdbapi.com/?s=${this.title}&page=${this.page}&apikey=${this.APIkey}&`
         );
         this.movies = data.Search;
         console.log(this.movies);
+        console.log('searching for movie:', this.searchMovie);
       } catch (error) {
         alert(error);
         console.log(error);
       }
     },
+
+    // async findMovies(movieToFind: string) {
+    //   try {
+    //     const { data } = await axios.get<ResponseFromDatabase>(
+    //       `https://www.omdbapi.com/?s=${movieToFind}&page=${this.page}&apikey=${this.APIkey}&`
+    //     );
+    //     this.movies = data.Search;
+    //     console.log('searched', movieToFind);
+    //   } catch (error) {
+    //     alert(error);
+    //     console.log(error);
+    //   }
+    // },
   },
 });
