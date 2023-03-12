@@ -10,24 +10,24 @@ export default {
       newSearchTitle: '',
       categorySingle: 'Any',
       value: '',
-      store: useMoviesStore()
+      store: useMoviesStore(),
     };
   },
   methods: {
-    searchForMovies(value: string) {
-        this.store.fetchMovies()
+    searchForMovies() {
+      this.store.fetchMovies();
     },
   },
 };
 </script>
 <template>
-    <input
-      type="text"
-      id="value"
-      placeholder="Enter the movie title ..."
-      @change="searchForMovies(value)"
-    />
-
+  <input
+    type="text"
+    v-model.trim="store.title"
+    id="value"
+    placeholder="Enter the movie title ..."
+    @change="searchForMovies()"
+  />
 </template>
 
 <style></style>

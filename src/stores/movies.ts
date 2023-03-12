@@ -17,12 +17,14 @@ interface MovieType {
 
 export const useMoviesStore = defineStore('moviesGetter', {
   state: () => ({
-    searchMovie: '',
-    page: '1',
+    totalResults: '',
+    totalPages:1,
+    currentPage: '1',
     isLoading: false,
     title: 'Friends',
     APIkey: '95dc70d',
     movies: [] as MovieType[],
+    page: 1,
   }),
 
   getters: {
@@ -37,26 +39,28 @@ export const useMoviesStore = defineStore('moviesGetter', {
         const { data } = await axios.get<ResponseFromDatabase>(
           `https://www.omdbapi.com/?s=${this.title}&page=${this.page}&apikey=${this.APIkey}&`
         );
+        this.totalResults = data.totalResults;
+        console.log(this.totalResults);
+
         this.movies = data.Search;
-        console.log(this.movies);
-        console.log('searching for movie:', this.searchMovie);
       } catch (error) {
         alert(error);
         console.log(error);
       }
     },
-
-    // async findMovies(movieToFind: string) {
-    //   try {
-    //     const { data } = await axios.get<ResponseFromDatabase>(
-    //       `https://www.omdbapi.com/?s=${movieToFind}&page=${this.page}&apikey=${this.APIkey}&`
-    //     );
-    //     this.movies = data.Search;
-    //     console.log('searched', movieToFind);
-    //   } catch (error) {
-    //     alert(error);
-    //     console.log(error);
-    //   }
-    // },
+    getNumberOfMovies() {
+      console.log(this.totalResults);
+      return this.totalResults;
+    },
+    getNumberOfPages() {
+      this.totalPages=Math.ceil(+this.totalResults/10);
+      return this.totalPages;
+    },
+    increasePage() {
+      this.page++;
+    },
+    decreasePage() {
+      this.page-- ;
+    },
   },
 });

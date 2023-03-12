@@ -9,41 +9,81 @@ onMounted(() => {
   store.fetchMovies();
 });
 
-function handleClick(imdb:string){
-  console.log(imdb)
+function handleClick(imdb: string) {
+  console.log(imdb);
+}
+function handleNextPage() {
+  store.increasePage();
+  store.fetchMovies();
+}
+function handlePreviousPage() {
+  store.decreasePage();
+  store.fetchMovies();
 }
 </script>
 
 <template>
-  <div></div>
   <div>
-    <div class="all-movies">
-      <div
-        v-for="movie in movies"
-        :key="movie.imdbID"
-        class="single-movie-card"
-      >
-        <div class="single-movie-card__img-container"  @click="handleClick(movie.imdbID)">
-          <img
-            :src="movie.Poster"
-            alt="movie.Title"
-            class="single-movie-card__img-container--img"
-          />
-        </div>
-        <div class="single-movie-card__title-container">
-          <h5>{{ movie.Title }}</h5>
-          <!-- <h6>Year: {{ movie.Year }}</h6>
+    <div class="movie-list-container">
+      <div class="movie-list-container__pagination">
+        <button
+          @click="handlePreviousPage()"
+          :disabled="store.page <= 1 ? true : false"
+          class="movie-list-container__pagination--button"
+        >
+          previous
+        </button>
+        <p>Page {{ store.page }} of {{ store.getNumberOfPages() }}</p>
+        <button
+          @click="handleNextPage()"
+          :disabled="store.page < +store.getNumberOfPages() ? false : true"
+          class="movie-list-container__pagination--button"
+        >
+          next
+        </button>
+      </div>
+      <br />
+      <div class="movie-list-container__all-movies">
+        <div
+          v-for="movie in movies"
+          :key="movie.imdbID"
+          class="single-movie-card"
+        >
+          <div
+            class="single-movie-card__img-container"
+            @click="handleClick(movie.imdbID)"
+          >
+            <img
+              :src="movie.Poster"
+              alt="movie.Title"
+              class="single-movie-card__img-container--img"
+            />
+          </div>
+          <div class="single-movie-card__title-container">
+            <h5>{{ movie.Title }}</h5>
+            <!-- <h6>Year: {{ movie.Year }}</h6>
           <h6>ID: {{ movie.imdbID }}</h6> -->
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
 <style scoped>
-.all-movies {
+.movie-list-container {
+  background-color: #ffe064;
+  padding: 5px;
+}
+.movie-list-container__pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.movie-list-container__all-movies {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
+  justify-content: center;
   gap: 20px;
 }
 .single-movie-card {
