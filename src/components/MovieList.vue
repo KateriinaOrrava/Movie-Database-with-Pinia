@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
 import { useMoviesStore } from '@/stores/movies';
+import { RouterLink } from 'vue-router';
 const store = useMoviesStore();
 const movies = computed(() => {
   return store.movies;
@@ -8,9 +9,14 @@ const movies = computed(() => {
 onMounted(() => {
   store.fetchMovies();
 });
-
+function getSingleMovieInfo() {
+  store.fetchSingleMovie();
+}
 function handleClick(imdb: string) {
   console.log(imdb);
+  store.singleImdbID = imdb;
+  console.log('store imdb', store.singleImdbID);
+  getSingleMovieInfo();
 }
 function handleNextPage() {
   store.increasePage();
@@ -43,40 +49,43 @@ function handlePreviousPage() {
         </button>
       </div>
       <br />
+
       <div class="movie-list-container__all-movies">
         <div
           v-for="movie in movies"
           :key="movie.imdbID"
           class="single-movie-card"
         >
-          <div
-            class="single-movie-card__img-container"
-            @click="handleClick(movie.imdbID)"
-          >
-            <img
-              :src="movie.Poster"
-              alt="movie.Title"
-              class="single-movie-card__img-container--img"
-            />
-          </div>
-          <div class="single-movie-card__title-container">
-            <h5>{{ movie.Title }}</h5>
-          </div>
+          <RouterLink to="/movie">
+            <div
+              class="single-movie-card__img-container"
+              @click="handleClick(movie.imdbID)"
+            >
+              <img
+                :src="movie.Poster"
+                alt="movie.Title"
+                class="single-movie-card__img-container--img"
+              />
+            </div>
+            <div class="single-movie-card__title-container">
+              <h5>{{ movie.Title }}</h5>
+            </div>
+          </RouterLink>
         </div>
       </div>
     </div>
   </div>
 </template>
 <style scoped>
-.movie-list-container__pagination--button{
+.movie-list-container__pagination--button {
   background-color: #00bd7e;
-  color:white;
+  color: white;
   text-transform: uppercase;
-  padding:10px;
-  border:none;
+  padding: 10px;
+  border: none;
   border-radius: 20px;
 }
-.movie-list-container__pagination--button:disabled{
+.movie-list-container__pagination--button:disabled {
   background-color: #424443;
 }
 .movie-list-container {

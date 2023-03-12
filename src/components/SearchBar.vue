@@ -2,7 +2,7 @@
 import 'vue-search-input/dist/styles.css';
 import { ref } from 'vue';
 import { useMoviesStore } from '@/stores/movies';
-const value = ref('');
+
 
 export default {
   data() {
