@@ -61,8 +61,6 @@ function handlePreviousPage() {
           </div>
           <div class="single-movie-card__title-container">
             <h5>{{ movie.Title }}</h5>
-            <!-- <h6>Year: {{ movie.Year }}</h6>
-          <h6>ID: {{ movie.imdbID }}</h6> -->
           </div>
         </div>
       </div>
@@ -70,14 +68,27 @@ function handlePreviousPage() {
   </div>
 </template>
 <style scoped>
+.movie-list-container__pagination--button{
+  background-color: #00bd7e;
+  color:white;
+  text-transform: uppercase;
+  padding:10px;
+  border:none;
+  border-radius: 20px;
+}
+.movie-list-container__pagination--button:disabled{
+  background-color: #424443;
+}
 .movie-list-container {
   background-color: #ffe064;
   padding: 5px;
+  border-radius: 10px;
 }
 .movie-list-container__pagination {
   display: flex;
   justify-content: center;
   gap: 10px;
+  align-items: center;
 }
 .movie-list-container__all-movies {
   display: flex;
@@ -85,6 +96,7 @@ function handlePreviousPage() {
   flex-direction: row;
   justify-content: center;
   gap: 20px;
+  border-radius: 10px;
 }
 .single-movie-card {
   display: flex;
