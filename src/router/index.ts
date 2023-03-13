@@ -16,7 +16,7 @@ const router = createRouter({
       component: FavoritesView,
     },
     {
-      path: '/movie',
+      path: '/movie/:id/:title',
       name: 'movie',
       component: OneMovieView,
     },

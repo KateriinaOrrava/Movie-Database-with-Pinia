@@ -53,6 +53,8 @@ export const useMoviesStore = defineStore('moviesGetter', {
     movies: [] as MovieType[],
     page: 1,
     singleMovieResult: {} as MovieDescriptionByID,
+    id: '',
+    moviesPerPage: 10,
   }),
 
   getters: {
@@ -76,11 +78,23 @@ export const useMoviesStore = defineStore('moviesGetter', {
         console.log(error);
       }
     },
-    
-    async fetchSingleMovie() {
+
+    // async fetchSingleMovie() {
+    //   try {
+    //     const { data } = await axios.get<MovieDescriptionByID>(
+    //       `https://www.omdbapi.com/?i=${this.singleImdbID}&apikey=${this.APIkey}&`
+    //     );
+    //     this.singleMovieResult = data;
+    //     console.log(this.singleMovieResult);
+    //   } catch (error) {
+    //     alert(error);
+    //     console.log(error);
+    //   }
+    // },
+    async fetchSingleMovie(id: string) {
       try {
         const { data } = await axios.get<MovieDescriptionByID>(
-          `https://www.omdbapi.com/?i=${this.singleImdbID}&apikey=${this.APIkey}&`
+          `https://www.omdbapi.com/?i=${id}&apikey=${this.APIkey}&`
         );
         this.singleMovieResult = data;
         console.log(this.singleMovieResult);
@@ -89,13 +103,27 @@ export const useMoviesStore = defineStore('moviesGetter', {
         console.log(error);
       }
     },
+    // async findTitleByImdbId(id: string):Promise<string|undefined> {
+    //   try {
+    //     const { data } = await axios.get<MovieDescriptionByID>(
+    //       `https://www.omdbapi.com/?i=${id}&apikey=${this.APIkey}&`
+    //     );
+    //     this.singleMovieResult = data;
+    //     console.log('This is liked movie title', this.singleMovieResult.Title);
+    //     console.log(this.singleMovieResult.Title);
+    //     return this.singleMovieResult.Title;
+    //   } catch (error) {
+    //     alert(error);
+    //     console.log(error);
+    //   }
+    // },
 
     getNumberOfMovies() {
       console.log(this.totalResults);
       return this.totalResults;
     },
     getNumberOfPages() {
-      this.totalPages = Math.ceil(+this.totalResults / 10);
+      this.totalPages = Math.ceil(+this.totalResults / this.moviesPerPage);
       return this.totalPages;
     },
     increasePage() {

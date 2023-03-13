@@ -10,7 +10,11 @@ export default {
       store: useMoviesStore(),
     };
   },
-  methods: {},
+//   methods: {
+//     getSingleMovieInfo() {
+//         this.store.fetchSingleMovie();
+// }},
+
 };
 </script>
 <template>
@@ -42,7 +46,6 @@ export default {
       <p>BoxOffice : {{ store.singleMovieResult.BoxOffice }}</p>
     </div>
   </div>
-  <h2>this is single movie view</h2>
 </template>
 
 <style>

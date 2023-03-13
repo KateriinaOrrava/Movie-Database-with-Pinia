@@ -9,15 +9,17 @@ const movies = computed(() => {
 onMounted(() => {
   store.fetchMovies();
 });
-function getSingleMovieInfo() {
-  store.fetchSingleMovie();
+// function getSingleMovieInfo() {
+//   store.fetchSingleMovie();
+// }
+function setNewImdbID(imdb: string) {
+  store.singleImdbID = imdb;
 }
 function handleClick(imdb: string) {
-  console.log(imdb);
-  store.singleImdbID = imdb;
-  console.log('store imdb', store.singleImdbID);
-  getSingleMovieInfo();
+  setNewImdbID(imdb);
+  // getSingleMovieInfo();
 }
+
 function handleNextPage() {
   store.increasePage();
   store.fetchMovies();
@@ -56,7 +58,7 @@ function handlePreviousPage() {
           :key="movie.imdbID"
           class="single-movie-card"
         >
-          <RouterLink to="/movie">
+          <RouterLink :to="`/movie/${movie.imdbID}/${movie.Title}`">
             <div
               class="single-movie-card__img-container"
               @click="handleClick(movie.imdbID)"
