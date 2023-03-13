@@ -63,9 +63,14 @@ function handlePreviousPage() {
               class="single-movie-card__img-container"
               @click="handleClick(movie.imdbID)"
             >
-              <img
+              <img v-if="movie.Poster!==`N/A`"
                 :src="movie.Poster"
                 alt="movie.Title"
+                class="single-movie-card__img-container--img"
+              />
+              <img v-if="movie.Poster===`N/A`"
+                :src="movie.Poster"
+                alt="nothing"
                 class="single-movie-card__img-container--img"
               />
             </div>

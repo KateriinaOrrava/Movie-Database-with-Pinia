@@ -7,10 +7,4 @@ import WelcomeItem from './WelcomeItem.vue'
   <WelcomeItem>
   </WelcomeItem>
 
-  <WelcomeItem>
-  </WelcomeItem>
-
-  <WelcomeItem>
-  </WelcomeItem>
-
 </template>

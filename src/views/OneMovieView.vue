@@ -17,9 +17,13 @@ onMounted(async () => {
 });
 </script>
 
-<template>
+<template >
+  <FavoritesMovieAddRemove></FavoritesMovieAddRemove>
   <MovieDetails></MovieDetails>
-  <FavoritesMovieAddRemove> </FavoritesMovieAddRemove>
 </template>
 
-<style></style>
+<style>
+.part {
+  background-color: black;
+}
+</style>

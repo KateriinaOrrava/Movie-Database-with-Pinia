@@ -45,10 +45,7 @@ export default {
 };
 </script>
 <template>
-  <div class="favorites">
-    <h1>This is favorites page</h1>
-  </div>
-  <div id="app">
+  <div class="addToFavorites">
     <p>
       <button
         @click="
@@ -57,21 +54,28 @@ export default {
           addToFavoritesButton = !addToFavoritesButton;
         "
         :class="{ active: addToFavoritesButton }"
+        class="addToFavoritesButton"
       >
-        ❤️
+        {{ addToFavoritesButton ? '❤️ added to favorites' : '🤍' }}
       </button>
     </p>
   </div>
-  <button @click="addToFavoritesButton = !addToFavoritesButton">Add</button>
 </template>
 
 <style>
-.active {
-  pointer-events: none;
-  background-color: white;
-  color: aliceblue;
-  cursor: not-allowed;
+.addToFavorites {
+  background-color: #151515;
+}
+.addToFavoritesButton {
+  font-size: 2em;
+  background-color: #151515;
   padding: 10px;
   border: none;
+  cursor: pointer;
+}
+.active {
+  pointer-events: none;
+  color: aliceblue;
+  cursor: not-allowed;
 }
 </style>

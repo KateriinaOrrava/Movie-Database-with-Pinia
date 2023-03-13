@@ -1,6 +1,7 @@
 <script lang="ts">
 import { useMoviesStore } from '@/stores/movies';
-import { useRoute } from "vue-router";
+import { useRoute } from 'vue-router';
+import { RouterLink } from 'vue-router';
 interface LikedMovie {
   Title: string;
   imdbID: string;
@@ -41,21 +42,47 @@ export default {
   <div class="favorites">
     <h1>This is favorites page</h1>
   </div>
-  <div id="app">
+  <div class="favorites-elements">
     <div v-for="(movie, n) in movies">
-      <p>
-        <span class="cat">{{ movie }}</span>
-        <button @click="removeMovie(n)">Remove</button>
-      </p>
+      <RouterLink :to="`/movie/${movie.imdbID}/${movie.Title}`" class="favorites-elements__single-movie">
+        <p class="favorites-elements__single-movie--title">
+          MOVIE TITLE: {{ movie.Title }}
+        </p>
+        <p class="favorites-elements__single-movie--id">
+          IMDB ID: {{ movie.imdbID }}
+        </p>
+        <button
+          @click="removeMovie(n)"
+          class="favorites-elements__single-movie--btn"
+        >
+          Remove
+        </button></RouterLink
+      >
     </div>
   </div>
 </template>
 
 <style>
 @media (min-width: 1024px) {
-  .cat {
-    width: 100px;
-    display: inline-block;
+  .favorites-elements {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 5px;
+  }
+  .favorites-elements__single-movie {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    background-color: rgb(255, 228, 107);
+    padding: 5px;
+    gap: 20px;
+    border-radius: 5px;
+  }
+  .favorites-elements__single-movie--btn {
+    background-color: transparent;
+    border: none;
+    color: #51a256;
+    text-align: end;
   }
 }
 </style>
