@@ -2,6 +2,9 @@
 import { ref, onMounted, computed } from 'vue';
 import { useMoviesStore } from '@/stores/movies';
 import { RouterLink } from 'vue-router';
+import ErrorComponent from './Error.vue';
+import LoadingComponent from './Loading.vue';
+
 const store = useMoviesStore();
 const movies = computed(() => {
   return store.movies;
@@ -28,6 +31,7 @@ function handlePreviousPage() {
   store.decreasePage();
   store.fetchMovies();
 }
+
 </script>
 
 <template>
@@ -44,7 +48,7 @@ function handlePreviousPage() {
         <p>Page {{ store.page }} of {{ store.getNumberOfPages() }}</p>
         <button
           @click="handleNextPage()"
-          :disabled="store.page < +store.getNumberOfPages() ? false : true"
+          :disabled="store.page < + store.getNumberOfPages() ? false : true"
           class="movie-list-container__pagination--button"
         >
           next
@@ -63,13 +67,15 @@ function handlePreviousPage() {
               class="single-movie-card__img-container"
               @click="handleClick(movie.imdbID)"
             >
-              <img v-if="movie.Poster!==`N/A`"
+              <img
+                v-if="movie.Poster !== `N/A`"
                 :src="movie.Poster"
                 alt="movie.Title"
                 class="single-movie-card__img-container--img"
               />
-              <img v-if="movie.Poster===`N/A`"
-                :src="movie.Poster"
+              <img
+                v-if="movie.Poster === `N/A`"
+                src="./noimg.jpg"
                 alt="nothing"
                 class="single-movie-card__img-container--img"
               />
@@ -122,6 +128,7 @@ function handlePreviousPage() {
   background-color: rgb(23, 23, 23);
   color: rgb(238, 228, 228);
   max-width: 20%;
+  height: 100%;
 }
 .single-movie-card:hover {
   border: 5px ridge rgba(121, 118, 118, 0.404);

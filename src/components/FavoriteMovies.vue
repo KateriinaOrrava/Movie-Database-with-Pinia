@@ -2,6 +2,8 @@
 import { useMoviesStore } from '@/stores/movies';
 import { useRoute } from 'vue-router';
 import { RouterLink } from 'vue-router';
+import ErrorComponent from './Error.vue';
+import LoadingComponent from './Loading.vue';
 interface LikedMovie {
   Title: string;
   imdbID: string;

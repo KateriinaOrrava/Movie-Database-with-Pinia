@@ -44,6 +44,8 @@ interface MovieDescriptionByID {
 
 export const useMoviesStore = defineStore('moviesGetter', {
   state: () => ({
+    loading: false,
+    error: false,
     singleImdbID: ' tt1285016',
     totalResults: '',
     totalPages: 1,
@@ -65,6 +67,7 @@ export const useMoviesStore = defineStore('moviesGetter', {
 
   actions: {
     async fetchMovies() {
+      this.loading = true
       try {
         const { data } = await axios.get<ResponseFromDatabase>(
           `https://www.omdbapi.com/?s=${this.title}&page=${this.page}&apikey=${this.APIkey}&`
@@ -73,7 +76,10 @@ export const useMoviesStore = defineStore('moviesGetter', {
         console.log(this.totalResults);
 
         this.movies = data.Search;
+        this.loading = false
       } catch (error) {
+        this.loading = false
+          this.error = true
         alert(error);
         console.log(error);
       }
@@ -92,13 +98,18 @@ export const useMoviesStore = defineStore('moviesGetter', {
     //   }
     // },
     async fetchSingleMovie(id: string) {
+      this.loading = true
       try {
         const { data } = await axios.get<MovieDescriptionByID>(
           `https://www.omdbapi.com/?i=${id}&apikey=${this.APIkey}&`
         );
         this.singleMovieResult = data;
         console.log(this.singleMovieResult);
+        this.loading = false
+
       } catch (error) {
+        this.loading = false
+        this.error = true
         alert(error);
         console.log(error);
       }

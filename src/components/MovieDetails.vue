@@ -1,8 +1,9 @@
 d
 <script lang="ts">
 import 'vue-search-input/dist/styles.css';
-import { ref } from 'vue';
 import { useMoviesStore } from '@/stores/movies';
+import ErrorComponent from './Error.vue';
+import LoadingComponent from './Loading.vue';
 
 export default {
   data() {
@@ -11,10 +12,7 @@ export default {
       store: useMoviesStore(),
     };
   },
-  //   methods: {
-  //     getSingleMovieInfo() {
-  //         this.store.fetchSingleMovie();
-  // }},
+  components: { ErrorComponent, LoadingComponent },
 };
 </script>
 <template>
@@ -22,6 +20,8 @@ export default {
     <div class="single-movie-container__header">
       <h1>{{ store.singleMovieResult.Title }}</h1>
     </div>
+    <ErrorComponent v-if="store.error" />
+    <LoadingComponent v-if="store.loading" />
     <div class="single-movie-container__content">
       <div class="single-movie-container__image-and-header--image">
         <img
@@ -30,21 +30,51 @@ export default {
         />
       </div>
       <div class="single-movie-container__details">
-        <p>Year: {{ store.singleMovieResult.Title }}</p>
-        <p>Released: {{ store.singleMovieResult.Released }}</p>
-        <p>Runtime: {{ store.singleMovieResult.Runtime }}</p>
-        <p>Country : {{ store.singleMovieResult.Country }}</p>
-        <p>Language : {{ store.singleMovieResult.Language }}</p>
-        <p>Type : {{ store.singleMovieResult.Type }}</p>
-        <p>imdbRating : {{ store.singleMovieResult.imdbRating }}</p>
-        <p>Writer : {{ store.singleMovieResult.Writer }}</p>
-        <p>Director : {{ store.singleMovieResult.Director }}</p>
-        <p>Awards :{{ store.singleMovieResult.Awards }}</p>
-        <p>Genre : {{ store.singleMovieResult.Genre }}</p>
-        <p>Director : {{ store.singleMovieResult.Director }}</p>
-        <p>BoxOffice : {{ store.singleMovieResult.BoxOffice }}</p>
-        <p>Plot : {{ store.singleMovieResult.Plot }}</p>
-        <p>ImdbID : {{ store.singleMovieResult.imdbID }}</p>
+        <p class="single-movie-container__details--p">
+          Year: {{ store.singleMovieResult.Title }}
+        </p>
+        <p class="single-movie-container__details--p">
+          Released: {{ store.singleMovieResult.Released }}
+        </p>
+        <p class="single-movie-container__details--p">
+          Runtime: {{ store.singleMovieResult.Runtime }}
+        </p>
+        <p class="single-movie-container__details--p">
+          Country : {{ store.singleMovieResult.Country }}
+        </p>
+        <p class="single-movie-container__details--p">
+          Language : {{ store.singleMovieResult.Language }}
+        </p>
+        <p class="single-movie-container__details--p">
+          Type : {{ store.singleMovieResult.Type }}
+        </p>
+        <p class="single-movie-container__details--p">
+          imdbRating : {{ store.singleMovieResult.imdbRating }}
+        </p>
+        <p class="single-movie-container__details--p">
+          Writer : {{ store.singleMovieResult.Writer }}
+        </p>
+        <p class="single-movie-container__details--p">
+          Director : {{ store.singleMovieResult.Director }}
+        </p>
+        <p class="single-movie-container__details--p">
+          Awards :{{ store.singleMovieResult.Awards }}
+        </p>
+        <p class="single-movie-container__details--p">
+          Genre : {{ store.singleMovieResult.Genre }}
+        </p>
+        <p class="single-movie-container__details--p">
+          Director : {{ store.singleMovieResult.Director }}
+        </p>
+        <p class="single-movie-container__details--p">
+          BoxOffice : {{ store.singleMovieResult.BoxOffice }}
+        </p>
+        <p class="single-movie-container__details--p">
+          Plot : {{ store.singleMovieResult.Plot }}
+        </p>
+        <p class="single-movie-container__details--p">
+          ImdbID : {{ store.singleMovieResult.imdbID }}
+        </p>
       </div>
     </div>
   </div>
@@ -61,22 +91,29 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 5px;
   background-color: #151515;
   padding: 10px;
+  max-width: 100%;
 }
 .single-movie-container__content {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   flex-direction: row;
   justify-content: center;
   gap: 5px;
+  justify-content: space-between;justify-items: end
 }
 .single-movie-container__details {
   display: flex;
+  flex-wrap: wrap;
   flex-direction: column;
   gap: 5px;
-  align-items: center;
   color: rgb(219, 212, 212);
   justify-content: space-between;
+  max-width: 100%;
+  justify-items: end;
+}
+.single-movie-container__details--p {
+  max-width: 70%;
 }
 </style>
